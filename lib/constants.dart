@@ -40,3 +40,9 @@ ThemeData kdarkTheme = ThemeData(
     ),
     primaryColor: Colors.yellow.shade700,
     primaryColorDark: Colors.yellow.shade800);
+
+const kDefaultGridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisSpacing: 4,
+    mainAxisSpacing: 4,
+    crossAxisCount: 2,
+    childAspectRatio: 3 / 5);

@@ -12,10 +12,9 @@ class HelpSectionBean {
   }
 
   Map<String, dynamic> toMap() {
-    // ignore: unnecessary_cast
     return {
       'title': this.title,
       'description': this.description,
-    } as Map<String, dynamic>;
+    };
   }
 }

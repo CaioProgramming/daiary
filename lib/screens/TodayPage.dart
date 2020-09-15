@@ -1,11 +1,24 @@
-import 'package:daiary/beans/HelpSectionBean.dart';
-import 'package:daiary/components/HelpSection.dart';
 import 'package:daiary/components/SuggestionCard.dart';
+import 'package:daiary/model/HelpModel.dart';
 import 'package:flutter/material.dart';
 
 import '../utils.dart';
 
-class TodayPage extends StatelessWidget {
+class TodayPage extends StatefulWidget {
+  @override
+  _TodayPageState createState() => _TodayPageState();
+}
+
+class _TodayPageState extends State<TodayPage> {
+  Widget sections = CircularProgressIndicator();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSections();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,20 +32,17 @@ class TodayPage extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SuggestionCard(),
-              HelpSection(HelpSectionBean(
-                  title: 'Saúde e prosperidade',
-                  description:
-                      'Crie objetivos e construa um futuro brilhante')),
-              HelpSection(HelpSectionBean(
-                  title: 'Ame a si mesmo',
-                  description:
-                      'Com o amor próprio tudo estará em seu alcance')),
-            ],
+            children: [SuggestionCard(), sections],
           ),
         ),
       ),
     );
+  }
+
+  void getSections() {
+    HelpModel helpModel = HelpModel();
+    sections = helpModel.defaultBuilder(helpModel.defaultStream(),
+        emptyResult: Text('Não conseguimos encontrar nossos materiais :('));
+    setState(() {});
   }
 }

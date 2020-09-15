@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import 'file:///C:/Users/cacai/StudioProjects/daiary/daiary/lib/components/NotePage.dart';
-
 import '../utils.dart';
 
 class NoteCard extends StatelessWidget {
@@ -16,14 +14,9 @@ class NoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    goToNotePage(NoteBean note) {
-      Navigator.pushNamed(context, NotePage.route, arguments: note);
-    }
-
     if (writeNote) return writeNoteCard(context);
     return CupertinoButton(
       padding: EdgeInsets.all(4),
-      onPressed: () => goToNotePage(note),
       child: Container(
         width: 200,
         height: 300,
@@ -81,7 +74,6 @@ class NoteCard extends StatelessWidget {
   static Widget writeNoteCard(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.all(4),
-      onPressed: () => Navigator.pushNamed(context, NotePage.route),
       child: Container(
         width: 200,
         height: 300,
