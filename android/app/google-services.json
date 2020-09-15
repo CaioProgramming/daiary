@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "430397299695",
+    "firebase_url": "https://daiary.firebaseio.com",
+    "project_id": "daiary",
+    "storage_bucket": "daiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430397299695:android:685da88b3f1cb04f0fb41a",
+        "android_client_info": {
+          "package_name": "com.ilustris.daiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430397299695-chvpni7ciseb0o5u2lfnkb93eoerl9ub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFAlfvgTXm-O9OBfB8-yCwvIZwTOP2yrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430397299695-chvpni7ciseb0o5u2lfnkb93eoerl9ub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
