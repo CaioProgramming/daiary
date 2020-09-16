@@ -41,8 +41,7 @@ class _TodayPageState extends State<TodayPage> {
 
   void getSections() {
     HelpModel helpModel = HelpModel();
-    sections = helpModel.defaultBuilder(helpModel.defaultStream(),
-        emptyResult: Text('Não conseguimos encontrar nossos materiais :('));
+    sections = helpModel.defaultStreamBuilder();
     setState(() {});
   }
 }

@@ -12,31 +12,6 @@ class HelpModel extends BaseData {
   CollectionReference collectionReference() =>
       firestoreInstance.collection('sections');
 
-  @override
-  StreamBuilder<QuerySnapshot> defaultBuilder(Stream<dynamic> stream,
-      {Widget emptyResult}) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final helpSectionsDocuments = snapshot.data.documents;
-          if (helpSectionsDocuments.isNotEmpty) {
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: helpSectionsDocuments.length,
-                itemBuilder: (context, position) {
-                  HelpSectionBean sectionBean = HelpSectionBean.fromMap(
-                      getSnapshotMap(helpSectionsDocuments, position),
-                      helpSectionsDocuments[position].documentID);
-                  return HelpSection(sectionBean);
-                });
-          }
-        }
-        return emptyResult;
-      },
-    );
-  }
-
   StreamBuilder<QuerySnapshot> helpCards(HelpSectionBean helpSectionBean) {
     Stream sectionStream = collectionReference()
         .document(helpSectionBean.id)
@@ -65,6 +40,31 @@ class HelpModel extends BaseData {
             return SizedBox();
           }
         });
+  }
+
+  @override
+  StreamBuilder<QuerySnapshot> defaultStreamBuilder({Stream<dynamic> stream}) {
+    return StreamBuilder<QuerySnapshot>(
+        builder: defaultBuilder, stream: stream ?? defaultStream());
+  }
+
+  @override
+  Widget defaultBuilder(BuildContext context, snapshot) {
+    if (snapshot.hasData) {
+      final helpSectionsDocuments = snapshot.data.documents;
+      if (helpSectionsDocuments.isNotEmpty) {
+        return ListView.builder(
+            shrinkWrap: true,
+            itemCount: helpSectionsDocuments.length,
+            itemBuilder: (context, position) {
+              HelpSectionBean sectionBean = HelpSectionBean.fromMap(
+                  getSnapshotMap(helpSectionsDocuments, position),
+                  helpSectionsDocuments[position].documentID);
+              return HelpSection(sectionBean);
+            });
+      }
+    }
+    return Text('Não encontramos nenhum recurso de ajuda :(');
   }
 }
 

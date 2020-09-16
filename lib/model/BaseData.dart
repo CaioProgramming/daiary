@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 abstract class BaseData {
   final firestoreInstance = Firestore.instance;
 
-  StreamBuilder<QuerySnapshot> defaultBuilder(Stream stream,
-      {@required Widget emptyResult});
+  StreamBuilder<QuerySnapshot> defaultStreamBuilder({Stream stream});
+
+  Widget defaultBuilder(BuildContext context, dynamic snapshot);
 
   CollectionReference collectionReference();
 

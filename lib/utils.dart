@@ -67,8 +67,8 @@ class Utils {
     return DateFormat('EEEE').format(date);
   }
 
-  static String currentDayOfMonth() {
-    var date = DateTime.now();
+  static String currentDayOfMonth({DateTime dateTime}) {
+    var date = dateTime ?? DateTime.now();
     return DateFormat(DateFormat.ABBR_MONTH_WEEKDAY_DAY).format(date);
   }
 

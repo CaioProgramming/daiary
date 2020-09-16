@@ -64,9 +64,7 @@ class _MyLoginPageState extends State<LoginPage> {
   Future login(BuildContext context) async {
     FirebaseUser user = await signInWithGoogle();
     if (user != null) {
-      showAlert('Bem-vindo ${user.displayName} sentimos sua falta!', () {
-        Navigator.pushReplacementNamed(context, MainPage.route);
-      });
+      Navigator.pushReplacementNamed(context, MainPage.route);
     } else {
       showAlert('Ocorreu um erro ao fazer o login, tente novamente',
           () => signInWithGoogle());

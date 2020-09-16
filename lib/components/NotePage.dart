@@ -1,26 +1,58 @@
+import 'dart:async';
+
 import 'package:daiary/beans/NoteBean.dart';
+import 'package:daiary/model/DiaryModel.dart';
 import 'package:daiary/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class NotePage extends StatefulWidget {
-  NoteBean note;
+class NotePage extends StatelessWidget {
+  final NoteBean noteBean;
 
-  NotePage(this.note);
+  NotePage(this.noteBean);
 
-  @override
-  _NotePageState createState() => _NotePageState();
-}
-
-class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
-    NoteBean args = widget.note;
     TextEditingController titleController =
-        TextEditingController(text: args.noteTitle ?? "");
+        TextEditingController(text: noteBean.title ?? "");
     TextEditingController textController =
-        TextEditingController(text: args.noteText ?? "");
+        TextEditingController(text: noteBean.text ?? "");
+    Timer titleTimer, textTimer;
+
+    void updateTitle(String newTitle) async {
+      if (newTitle != titleController.text) {
+        titleTimer = null;
+        titleTimer = Timer(Duration(seconds: 10), () async {
+          noteBean.title = newTitle;
+          String result = await DiaryModel().updateNote(noteBean);
+          final snackbar = SnackBar(content: Text(result));
+          Scaffold.of(context).showSnackBar(snackbar);
+        });
+      } else {
+        noteBean.title = newTitle;
+        String result = await DiaryModel().updateNote(noteBean);
+        final snackbar = SnackBar(content: Text(result));
+        Scaffold.of(context).showSnackBar(snackbar);
+      }
+    }
+
+    void updateText(String newText) async {
+      if (newText != titleController.text) {
+        titleTimer = null;
+        titleTimer = Timer(Duration(seconds: 10), () async {
+          noteBean.text = newText;
+          String result = await DiaryModel().updateNote(noteBean);
+          final snackbar = SnackBar(content: Text(result));
+          Scaffold.of(context).showSnackBar(snackbar);
+        });
+      } else {
+        noteBean.text = newText;
+        String result = await DiaryModel().updateNote(noteBean);
+        final snackbar = SnackBar(content: Text(result));
+        Scaffold.of(context).showSnackBar(snackbar);
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +90,7 @@ class _NotePageState extends State<NotePage> {
                           child: TextField(
                             maxLines: 1,
                             controller: titleController,
+                            onChanged: updateTitle,
                             style: Theme.of(context).textTheme.headline5,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
@@ -69,6 +102,7 @@ class _NotePageState extends State<NotePage> {
                         TextField(
                           keyboardType: TextInputType.multiline,
                           controller: textController,
+                          onChanged: updateText,
                           maxLines: null,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(

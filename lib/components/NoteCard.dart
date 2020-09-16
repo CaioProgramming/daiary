@@ -48,7 +48,7 @@ class NoteCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    note.noteTitle,
+                    note.title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
