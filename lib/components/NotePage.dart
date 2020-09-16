@@ -31,7 +31,7 @@ class NotePage extends StatelessWidget {
         });
       } else {
         noteBean.title = newTitle;
-        String result = await DiaryModel().updateNote(noteBean);
+        String result = await DiaryModel().addNote(noteBean);
         final snackbar = SnackBar(content: Text(result));
         Scaffold.of(context).showSnackBar(snackbar);
       }
@@ -42,7 +42,7 @@ class NotePage extends StatelessWidget {
         titleTimer = null;
         titleTimer = Timer(Duration(seconds: 10), () async {
           noteBean.text = newText;
-          String result = await DiaryModel().updateNote(noteBean);
+          String result = await DiaryModel().addNote(noteBean);
           final snackbar = SnackBar(content: Text(result));
           Scaffold.of(context).showSnackBar(snackbar);
         });
