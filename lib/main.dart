@@ -19,20 +19,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Diary',
       theme: ThemeData(
-          textTheme: GoogleFonts.loraTextTheme(),
+          textTheme: GoogleFonts.montserratTextTheme(),
           primarySwatch: Colors.yellow,
-          buttonColor: Colors.yellow[500],
+          buttonColor: Colors.yellow[800],
           accentColor: Colors.yellowAccent.shade400,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          appBarTheme: AppBarTheme(
-              elevation: 0,
-              color: Colors.white,
-              textTheme:
-                  GoogleFonts.montserratTextTheme(Theme.of(context).textTheme)),
+          appBarTheme: AppBarTheme(elevation: 0, color: Colors.yellow[700]),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              backgroundColor: Colors.white,
-              selectedItemColor: Colors.yellow[500],
-              unselectedItemColor: Colors.grey)),
+              backgroundColor: Colors.yellow[700],
+              selectedItemColor: Colors.black,
+              selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+              unselectedItemColor: Theme.of(context).hintColor)),
       darkTheme: kdarkTheme.copyWith(
           textTheme:
               GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme),
@@ -46,6 +43,7 @@ class MyApp extends StatelessWidget {
                   GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme)),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
               backgroundColor: Colors.black,
+              selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
               selectedItemColor: Colors.yellow[700],
               unselectedItemColor: Colors.grey)),
       home: LoginPage(),

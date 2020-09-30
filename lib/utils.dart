@@ -56,14 +56,20 @@ class Utils {
 
   static setBarAndNavColor(BuildContext context, {Color backgroundColor}) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarIconBrightness: Theme.of(context).brightness,
         statusBarColor:
             Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         systemNavigationBarColor: backgroundColor ??
             Theme.of(context).bottomNavigationBarTheme.backgroundColor));
   }
 
-  static String currentDayofWeek() {
-    var date = DateTime.now();
+  static String currentTime({DateTime dateTime}) {
+    var date = dateTime ?? DateTime.now();
+    return DateFormat(DateFormat.HOUR24_MINUTE).format(date);
+  }
+
+  static String currentDayofWeek({DateTime dateTime}) {
+    var date = dateTime ?? DateTime.now();
     return DateFormat('EEEE').format(date);
   }
 

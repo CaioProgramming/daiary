@@ -14,6 +14,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<LoginPage> {
+  bool needLogin = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
+
+  void getUser() async {
+    var user = await FirebaseAuth.instance.currentUser();
+    needLogin = user == null;
+    setState(() {});
+    if (!needLogin) Navigator.pushReplacementNamed(context, MainPage.route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,18 +39,21 @@ class _MyLoginPageState extends State<LoginPage> {
           verticalDirection: VerticalDirection.up,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MaterialButton(
-              minWidth: double.maxFinite,
-              padding: EdgeInsets.symmetric(vertical: 16),
-              onPressed: () async {
-                await login(context);
-              },
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              color: Colors.yellow[700],
-              child: Text('Continuar',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+            Visibility(
+              visible: needLogin,
+              child: MaterialButton(
+                minWidth: double.maxFinite,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                onPressed: () async {
+                  await login(context);
+                },
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                color: Colors.yellow[700],
+                child: Text('Continuar',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 4),

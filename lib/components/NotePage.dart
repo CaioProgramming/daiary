@@ -7,56 +7,71 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class NotePage extends StatelessWidget {
+class NotePage extends StatefulWidget {
   final NoteBean noteBean;
 
   NotePage(this.noteBean);
 
   @override
+  _NotePageState createState() => _NotePageState();
+}
+
+class _NotePageState extends State<NotePage> {
+  TextEditingController titleController;
+  TextEditingController textController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    titleController = TextEditingController(text: widget.noteBean.title ?? "");
+    textController = TextEditingController(text: widget.noteBean.text ?? "");
+  }
+
+  @override
   Widget build(BuildContext context) {
-    TextEditingController titleController =
-        TextEditingController(text: noteBean.title ?? "");
-    TextEditingController textController =
-        TextEditingController(text: noteBean.text ?? "");
     Timer titleTimer, textTimer;
 
     void updateTitle(String newTitle) async {
-      if (newTitle != titleController.text) {
-        titleTimer = null;
-        titleTimer = Timer(Duration(seconds: 10), () async {
-          noteBean.title = newTitle;
-          String result = await DiaryModel().updateNote(noteBean);
-          final snackbar = SnackBar(content: Text(result));
-          Scaffold.of(context).showSnackBar(snackbar);
-        });
-      } else {
-        noteBean.title = newTitle;
-        String result = await DiaryModel().addNote(noteBean);
+      if (titleTimer != null) return;
+      titleTimer = Timer(Duration(seconds: 10), () async {
+        widget.noteBean.title = titleController.text;
+        String result = await DiaryModel().addNote(widget.noteBean);
         final snackbar = SnackBar(content: Text(result));
         Scaffold.of(context).showSnackBar(snackbar);
-      }
+        titleTimer = null;
+      });
+    }
+
+    void markNote() {
+      NoteBean note = widget.noteBean;
+      note.marked = !note.marked;
+      DiaryModel().updateNote(note);
     }
 
     void updateText(String newText) async {
-      if (newText != titleController.text) {
-        titleTimer = null;
-        titleTimer = Timer(Duration(seconds: 10), () async {
-          noteBean.text = newText;
-          String result = await DiaryModel().addNote(noteBean);
-          final snackbar = SnackBar(content: Text(result));
-          Scaffold.of(context).showSnackBar(snackbar);
-        });
-      } else {
-        noteBean.text = newText;
-        String result = await DiaryModel().updateNote(noteBean);
+      if (textTimer != null) return;
+      textTimer = Timer(Duration(seconds: 10), () async {
+        widget.noteBean.text = textController.text;
+        String result = await DiaryModel().addNote(widget.noteBean);
         final snackbar = SnackBar(content: Text(result));
         Scaffold.of(context).showSnackBar(snackbar);
-      }
+        textTimer = null;
+      });
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Utils.currentDayOfMonth()),
+        title: Column(
+          children: [
+            Text(Utils.currentDayOfMonth(dateTime: widget.noteBean.date)),
+            widget.noteBean.id != null
+                ? Text(
+                    'Última edição em ${Utils.currentTime(dateTime: widget.noteBean.lastUpdate)}',
+                    style: Theme.of(context).textTheme.caption,
+                  )
+                : SizedBox()
+          ],
+        ),
         centerTitle: true,
         elevation: 0,
         actions: [
@@ -68,10 +83,12 @@ class NotePage extends StatelessWidget {
               onPressed: () {}),
           IconButton(
             icon: Icon(
-              Feather.bookmark,
+              widget.noteBean.marked
+                  ? FlutterIcons.bookmark_faw5s
+                  : FlutterIcons.bookmark_faw5,
               color: Theme.of(context).textTheme.headline6.color,
             ),
-            onPressed: () {},
+            onPressed: () => markNote(),
           )
         ],
       ),
@@ -103,7 +120,7 @@ class NotePage extends StatelessWidget {
                           keyboardType: TextInputType.multiline,
                           controller: textController,
                           onChanged: updateText,
-                          maxLines: null,
+                          maxLines: 400,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none),

@@ -102,7 +102,7 @@ class BigHelpCard extends StatelessWidget {
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color: Theme.of(context).textTheme.headline6.color,
                       child: Text('Começar',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class NoteBean {
   String title, id, text;
   DateTime date, lastUpdate;
@@ -8,9 +10,11 @@ class NoteBean {
       title: map['noteTitle'] as String,
       id: key,
       text: map['noteText'] as String,
-      date: map['noteDate'] as DateTime,
-      lastUpdate: map['lastUpdate'] as DateTime,
-      marked: map['marked'] as bool,
+      date: DateTime.fromMicrosecondsSinceEpoch(
+          (map['noteDate'] as Timestamp).microsecondsSinceEpoch),
+      lastUpdate: DateTime.fromMicrosecondsSinceEpoch(
+          (map['lastUpdate'] as Timestamp).microsecondsSinceEpoch),
+      marked: map['marked'] as bool ?? false,
     );
   }
 
@@ -28,7 +32,7 @@ class NoteBean {
       {this.title,
       this.id,
       this.text,
-      this.marked,
+      this.marked = false,
       this.date,
       DateTime lastUpdate});
 }

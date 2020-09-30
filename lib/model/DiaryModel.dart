@@ -26,13 +26,18 @@ class DiaryModel extends BaseData {
     if (snapshot.hasData) {
       final diaryDocuments = snapshot.data.documents;
       List<NoteBean> notes = List();
-      notes.add(NoteBean());
+      notes.clear();
+      NoteBean emptyNote = NoteBean(date: DateTime.now());
+      notes.add(emptyNote);
       if (diaryDocuments.isNotEmpty) {
         for (var diarySnaphot in diaryDocuments) {
-          notes.add(
-              NoteBean.fromMap(diarySnaphot.data, diarySnaphot.documentID));
+          NoteBean note =
+              NoteBean.fromMap(diarySnaphot.data, diarySnaphot.documentID);
+          if (note.date == DateTime.now()) notes.remove(0);
+          notes.add(note);
         }
       }
+      notes.sort((note1, note2) => note1.date.compareTo(note2.date));
       return notesPageView(notes, context);
     }
     return SizedBox();
@@ -60,6 +65,9 @@ class DiaryModel extends BaseData {
 
   Future<String> addNote(NoteBean noteBean) async {
     if (noteBean.id == null) {
+      noteBean.date = DateTime.now();
+      noteBean.lastUpdate = DateTime.now();
+      noteBean.marked = false;
       DocumentReference newNote =
           await collectionReference().add(noteBean.toMap());
       if (newNote != null) {
@@ -73,6 +81,7 @@ class DiaryModel extends BaseData {
   }
 
   Future<String> updateNote(NoteBean noteBean) async {
+    noteBean.lastUpdate = DateTime.now();
     try {
       await collectionReference()
           .document(noteBean.id)
